@@ -2,12 +2,14 @@
 <html lang="ro">
 <head>
   <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Inventariere Arbori</title>
-  <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script>
+    // Activează funcționalitatea offline
     if ("serviceWorker" in navigator) {
       navigator.serviceWorker.register("service-worker.js");
     }
@@ -15,19 +17,54 @@
 </head>
 <body>
   <h1>🌳 Inventariere Arbori</h1>
+
+  <!-- HARTA<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Inventariere Arbori</title>
+  <link rel="stylesheet" href="style.css" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    // Activează funcționalitatea offline
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js");
+    }
+  </script>
+</head>
+<body>
+  <h1>🌳 Inventariere Arbori</h1>
+
+  <!-- HARTA -->
   <div id="map"></div>
 
+  <!-- FORMULAR ARBORI -->
   <form id="tree-form">
-    <h2>Adaugă arbore</h2>
+    <h2>Adaugă arbore în plotul selectat</h2>
     <input type="text" id="specie" placeholder="Specie" required />
     <input type="number" id="diametru" placeholder="Diametru (cm)" required />
     <input type="number" id="inaltime" placeholder="Înălțime (m)" required />
     <button type="submit">✅ Salvează arbore</button>
   </form>
 
+  <!-- CĂUTARE -->
+  <input type="text" id="search-specie" placeholder="🔍 Caută specie..." />
+
+  <!-- LISTA ARBORI + ȘTERGERE -->
+  <div id="tree-list"></div>
+
+  <!-- STATISTICI PLOTURI -->
+  <div id="plot-stats"></div>
+
+  <!-- BUTOANE EXPORT -->
   <button onclick="exportCSVOffline()">💾 Descarcă arborii (.CSV)</button>
   <button onclick="exportTrees()">📤 Trimite arborii în Sheets</button>
+  <button onclick="exportPlotsCSV()">📄 Exportă ploturi (.CSV)</button>
 
+  <!-- SCRIPT APLICAȚIE -->
   <script src="app.js"></script>
 </body>
 </html>
