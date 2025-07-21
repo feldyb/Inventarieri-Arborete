@@ -1,0 +1,72 @@
+forestkit:
+  versiune: "1.0"
+  titlu: "Inventariere Arbori"
+  autor: "Feldy"
+  data_creare: "2025-07-22"
+  limba: "ro"
+  zona: "Brasov"
+
+harta:
+  centru_initial:
+    lat: 45.66
+    lon: 25.60
+    zoom: 16
+  permit_geolocatie: true
+  editor_harta: true
+  import_geojson: true
+
+ploturi:
+  suprafata_m2: 500
+  raza_m: 12.6
+  culoare_default: "gray"
+  culoare_gps: "blue"
+  culoare_densitate:
+    scazuta: "green"
+    medie: "orange"
+    ridicata: "red"
+
+arbori:
+  campuri:
+    - specie
+    - diametru
+    - inaltime
+  specii_default:
+    - Fag
+    - Molid
+    - Stejar
+    - Brad
+    - Pin
+    - Carpen
+  diametru_min: 10
+  diametru_max: 100
+  inaltime_max: 50
+
+export:
+  csv: true
+  geojson: true
+  json_proiecte: true
+  sincronizare_sheets: true
+  url_sheets: "https://script.google.com/macros/s/YOUR_SCRIPT_ID/exec"
+
+proiecte:
+  salvare_locala: true
+  folder_export: "exporturi"
+  nume_prefix: "project"
+  listare_vizuala: true
+  backup_json: true
+
+tema:
+  stil: "verde_pădure"
+  font: "Comfortaa"
+  culoare_fundal: "#f1f9f3"
+  culoare_text: "#2e7d32"
+  culoare_butoane: "#388e3c"
+  mod_noapte: false
+
+utilizator:
+  rol: "padurar"
+  permisii:
+    - export_csv
+    - salvare_proiect
+    - geolocatie
+    - import_contururi
