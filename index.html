@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inventariere Arbori</title>
+  <title>ForestKit — Inventariere Arbori</title>
 
   <link rel="stylesheet" href="style.css" />
   <link rel="manifest" href="manifest.json" />
@@ -11,9 +11,9 @@
 
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-
   <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
   <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
 
   <script>
     if ("serviceWorker" in navigator) {
@@ -24,9 +24,9 @@
   </script>
 </head>
 <body>
-  <h1>🌳 Inventariere Arbori</h1>
+  <h1>🌳 ForestKit</h1>
 
-  <button onclick="locateMeAndDrawPlot()">📍 Plot la locația mea</button>
+  <button onclick="locateMeAndDrawPlot()">📍 Plot GPS</button>
   <div id="map"></div>
 
   <form id="tree-form">
@@ -40,17 +40,19 @@
   <div id="tree-list"></div>
   <div id="plot-stats"></div>
 
-  <button onclick="exportCSVOffline()">💾 Export arbori (.CSV)</button>
-  <button onclick="exportTrees()">📤 Trimite arborii în Sheets</button>
+  <button onclick="exportCSVOffline()">💾 Export arbori (CSV)</button>
   <button onclick="exportGeoJSONFull()">🗺️ Export GeoJSON complet</button>
 
-  <h3>📥 Importă contur (.geojson)</h3>
+  <h3>📥 Import contur (.geojson)</h3>
   <input type="file" id="geojson-input" accept=".geojson" />
 
-  <h3>📁 Proiecte locale</h3>
+  <h3>📁 Gestionare proiecte</h3>
   <button onclick="saveProjectLocal()">💾 Salvează proiect</button>
   <button onclick="listProjects()">📋 Afișează proiecte</button>
   <div id="project-list"></div>
+
+  <h3>⚙️ Configurație ForestKit (.yaml)</h3>
+  <input type="file" id="yaml-config" accept=".yaml" />
 
   <script src="app.js"></script>
 </body>
