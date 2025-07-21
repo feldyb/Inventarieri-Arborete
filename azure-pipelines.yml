@@ -1,20 +1,44 @@
-# Android
-# Build your Android project with Gradle.
-# Add steps that test, sign, and distribute the APK, save build artifacts, and more:
-# https://docs.microsoft.com/azure/devops/pipelines/languages/android
+# Azure DevOps Pipeline — Build ForestKit APK
 
 trigger:
 - main
 
 pool:
-  vmImage: 'macos-latest'
+  vmImage: 'macos-latest'  # sau 'ubuntu-latest'
+
+variables:
+  buildDir: 'app/build/outputs/apk/debug'
+  apkName: 'ForestKit-debug.apk'
 
 steps:
+
+# 📦 Build APK debug
 - task: Gradle@2
   inputs:
     workingDirectory: ''
     gradleWrapperFile: 'gradlew'
     gradleOptions: '-Xmx3072m'
     publishJUnitResults: false
-    testResultsFiles: '**/TEST-*.xml'
     tasks: 'assembleDebug'
+
+# 💾 Copiază APK în folderul de artefacte
+- task: CopyFiles@2
+  inputs:
+    contents: '$(buildDir)/*.apk'
+    targetFolder: '$(Build.ArtifactStagingDirectory)'
+
+# 📤 Publică APK-ul ca artefact
+- task: PublishBuildArtifacts@1
+  inputs:
+    pathToPublish: '$(Build.ArtifactStagingDirectory)'
+    artifactName: 'ForestKit-APK'
+    publishLocation: 'Container'
+
+# 🔐 (opțional) Semnare APK
+# - script: |
+#     jarsigner -verbose -sigalg SHA256withRSA -digestalg SHA-256 \
+#     -keystore your-keystore.jks -storepass $(keystorePassword) \
+#     $(Build.ArtifactStagingDirectory)/$(apkName) alias_name
+#   displayName: 'Sign APK'
+
+# 🚀 (opțional) Distribuție în Play Store, Firebase App Distribution etc.
