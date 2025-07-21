@@ -1,13 +1,11 @@
-const CACHE_NAME = "arbori-cache-v1";
-const offlineFallbackPage = "offline.html";
+const CACHE_NAME = "forestkit-cache-v1";
+
 const FILES_TO_CACHE = [
-  "/",
   "index.html",
   "style.css",
   "app.js",
   "manifest.json",
-  "icon.png",
-  offlineFallbackPage // asigură-te că offline.html e inclus!
+  "icon.png"
 ];
 
 self.addEventListener("install", event => {
@@ -20,22 +18,17 @@ self.addEventListener("install", event => {
 self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys().then(keys =>
-      Promise.all(keys.map(k => k !== CACHE_NAME && caches.delete(k)))
+      Promise.all(keys.map(key => key !== CACHE_NAME && caches.delete(key)))
     )
   );
   self.clients.claim();
 });
 
 self.addEventListener("fetch", event => {
-  if (event.request.url.includes("tile.openstreetmap.org")) return;
-  if (event.request.mode === "navigate") {
-    event.respondWith(
-      fetch(event.request)
-        .catch(() => caches.match(offlineFallbackPage))
-    );
-  } else {
-    event.respondWith(
-      caches.match(event.request).then(resp => resp || fetch(event.request))
-    );
-  }
+  if (event.request.url.includes("tile.openstreetmap.org")) return; // nu cachează harta OSM
+  event.respondWith(
+    caches.match(event.request).then(response =>
+      response || fetch(event.request)
+    )
+  );
 });
