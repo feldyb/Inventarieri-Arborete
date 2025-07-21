@@ -1,6 +1,7 @@
 {
   "name": "Inventarieri Arborete",
   "short_name": "Arborete",
+  "id": "/",
   "start_url": "/",
   "display": "standalone",
   "icons": [
@@ -15,6 +16,7 @@
       "type": "image/png"
     }
   ],
+  "description": "Aplicație PWA pentru inventarierea arboretelor.",
   "theme_color": "#000000",
   "background_color": "#000000",
   "lang": "ro",
@@ -29,5 +31,8 @@
       "url": "https://play.google.com/store/apps/details?id=com.github.android",
       "id": "com.github.android"
     }
-  ]
+  ],
+  "launch_handler": {
+    "client_mode": "auto"
+  }
 }
