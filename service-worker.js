@@ -1,11 +1,13 @@
 const CACHE_NAME = "arbori-cache-v1";
+const offlineFallbackPage = "offline.html";
 const FILES_TO_CACHE = [
   "/",
   "index.html",
   "style.css",
   "app.js",
   "manifest.json",
-  "icon.png"
+  "icon.png",
+  offlineFallbackPage // asigură-te că offline.html e inclus!
 ];
 
 self.addEventListener("install", event => {
@@ -26,7 +28,14 @@ self.addEventListener("activate", event => {
 
 self.addEventListener("fetch", event => {
   if (event.request.url.includes("tile.openstreetmap.org")) return;
-  event.respondWith(
-    caches.match(event.request).then(resp => resp || fetch(event.request))
-  );
+  if (event.request.mode === "navigate") {
+    event.respondWith(
+      fetch(event.request)
+        .catch(() => caches.match(offlineFallbackPage))
+    );
+  } else {
+    event.respondWith(
+      caches.match(event.request).then(resp => resp || fetch(event.request))
+    );
+  }
 });
