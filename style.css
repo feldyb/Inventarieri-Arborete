@@ -1,56 +1,22 @@
 body {
   font-family: sans-serif;
-  margin: 0;
-  padding: 10px;
-  background: #f4f9f7;
-}
-
-h1 {
-  text-align: center;
-  color: #2e7d32;
-}
-
-#map {
-  height: 400px;
-  margin-bottom: 15px;
-  border: 2px solid #ccc;
-}
-
-form {
-  background: white;
-  padding: 15px;
-  border-radius: 5px;
-  max-width: 400px;
+  padding: 20px;
+  max-width: 800px;
   margin: auto;
 }
-
-form input, form button {
-  display: block;
-  width: 100%;
-  padding: 10px;
-  font-size: 1em;
-  margin-bottom: 10px;
-  border-radius: 5px;
-  border: 1px solid #bbb;
+#map {
+  height: 400px;
+  margin: 20px 0;
 }
-
-button {
-  background: #388e3c;
-  color: white;
-  border: none;
-  border-radius: 5px;
-  padding: 10px;
-  font-size: 1em;
-  cursor: pointer;
-  margin: 10px auto;
-  display: block;
-  max-width: 400px;
+#tree-list, #plot-stats, #project-list {
+  margin-top: 20px;
 }
-
-button:hover {
-  background: #2e7d32;
+.project-row {
+  display: flex;
+  gap: 8px;
+  margin: 6px 0;
+  align-items: center;
 }
-
-#search-specie {
-  display: block;
-  margin
+.project-row button {
+  padding: 4px 8px;
+}
