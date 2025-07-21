@@ -1,22 +1,54 @@
 body {
-  font-family: sans-serif;
+  font-family: "Comfortaa", sans-serif;
+  background-color: #f1f9f3;
+  color: #2e7d32;
   padding: 20px;
   max-width: 800px;
   margin: auto;
 }
+h1, h2, h3 {
+  color: #1b5e20;
+  font-weight: 600;
+}
 #map {
   height: 400px;
   margin: 20px 0;
+  border: 2px solid #a5d6a7;
+  box-shadow: 0 0 10px rgba(46, 125, 50, 0.3);
+  border-radius: 8px;
 }
-#tree-list, #plot-stats, #project-list {
+button {
+  background-color: #388e3c;
+  color: #fff;
+  border: none;
+  padding: 8px 14px;
+  margin: 6px 4px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+}
+button:hover {
+  background-color: #2e7d32;
+}
+input {
+  padding: 6px;
+  border: 2px solid #81c784;
+  border-radius: 5px;
+  margin: 4px 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+.tree-item, .project-row {
+  background-color: #e8f5e9;
+  padding: 8px;
+  border-left: 4px solid #66bb6a;
+  margin-bottom: 6px;
+  border-radius: 4px;
+}
+#plot-stats {
   margin-top: 20px;
-}
-.project-row {
-  display: flex;
-  gap: 8px;
-  margin: 6px 0;
-  align-items: center;
-}
-.project-row button {
-  padding: 4px 8px;
+  background-color: #f0f8f4;
+  border-left: 4px solid #4caf50;
+  padding: 10px;
+  border-radius: 4px;
 }
