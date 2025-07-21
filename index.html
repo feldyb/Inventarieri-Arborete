@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ro">
+<head>
+  <meta charset="UTF-8" />
+  <title>Inventariere Arbori</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script>
+    if ("serviceWorker" in navigator) {
+      navigator.serviceWorker.register("service-worker.js");
+    }
+  </script>
+</head>
+<body>
+  <h1>🌳 Inventariere Arbori</h1>
+  <div id="map"></div>
+
+  <form id="tree-form">
+    <h2>Adaugă arbore</h2>
+    <input type="text" id="specie" placeholder="Specie" required />
+    <input type="number" id="diametru" placeholder="Diametru (cm)" required />
+    <input type="number" id="inaltime" placeholder="Înălțime (m)" required />
+    <button type="submit">✅ Salvează arbore</button>
+  </form>
+
+  <button onclick="exportCSVOffline()">💾 Descarcă arborii (.CSV)</button>
+  <button onclick="exportTrees()">📤 Trimite arborii în Sheets</button>
+
+  <script src="app.js"></script>
+</body>
+</html>
