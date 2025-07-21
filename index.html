@@ -4,67 +4,54 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Inventariere Arbori</title>
+
   <link rel="stylesheet" href="style.css" />
   <link rel="manifest" href="manifest.json" />
+  <link rel="icon" href="icon.png" />
+
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
+  <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
+
   <script>
-    // Activează funcționalitatea offline
     if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("service-worker.js");
+      navigator.serviceWorker.register("service-worker.js")
+        .then(() => console.log("✅ Service Worker activat"))
+        .catch(err => console.error("❌ Eroare:", err));
     }
   </script>
 </head>
 <body>
   <h1>🌳 Inventariere Arbori</h1>
 
-  <!-- HARTA<!DOCTYPE html>
-<html lang="ro">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Inventariere Arbori</title>
-  <link rel="stylesheet" href="style.css" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <script>
-    // Activează funcționalitatea offline
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("service-worker.js");
-    }
-  </script>
-</head>
-<body>
-  <h1>🌳 Inventariere Arbori</h1>
-
-  <!-- HARTA -->
+  <button onclick="locateMeAndDrawPlot()">📍 Plot la locația mea</button>
   <div id="map"></div>
 
-  <!-- FORMULAR ARBORI -->
   <form id="tree-form">
-    <h2>Adaugă arbore în plotul selectat</h2>
     <input type="text" id="specie" placeholder="Specie" required />
     <input type="number" id="diametru" placeholder="Diametru (cm)" required />
     <input type="number" id="inaltime" placeholder="Înălțime (m)" required />
     <button type="submit">✅ Salvează arbore</button>
   </form>
 
-  <!-- CĂUTARE -->
   <input type="text" id="search-specie" placeholder="🔍 Caută specie..." />
-
-  <!-- LISTA ARBORI + ȘTERGERE -->
   <div id="tree-list"></div>
-
-  <!-- STATISTICI PLOTURI -->
   <div id="plot-stats"></div>
 
-  <!-- BUTOANE EXPORT -->
-  <button onclick="exportCSVOffline()">💾 Descarcă arborii (.CSV)</button>
+  <button onclick="exportCSVOffline()">💾 Export arbori (.CSV)</button>
   <button onclick="exportTrees()">📤 Trimite arborii în Sheets</button>
-  <button onclick="exportPlotsCSV()">📄 Exportă ploturi (.CSV)</button>
+  <button onclick="exportGeoJSONFull()">🗺️ Export GeoJSON complet</button>
 
-  <!-- SCRIPT APLICAȚIE -->
+  <h3>📥 Importă contur (.geojson)</h3>
+  <input type="file" id="geojson-input" accept=".geojson" />
+
+  <h3>📁 Proiecte locale</h3>
+  <button onclick="saveProjectLocal()">💾 Salvează proiect</button>
+  <button onclick="listProjects()">📋 Afișează proiecte</button>
+  <div id="project-list"></div>
+
   <script src="app.js"></script>
 </body>
 </html>
