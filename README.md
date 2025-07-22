@@ -1,1 +1,6 @@
-# Inventarieri-Arborete
+ForestryKit — Aplicație de Inventariere Arbori
+Autor: Feldy
+...
+📦 Ce conține acest pachet:
+- index.html — interfața principală a aplicației ForestryKit
+...
