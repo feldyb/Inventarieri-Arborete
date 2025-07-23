@@ -3,57 +3,15 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ForestKit — Inventariere Arbori</title>
-
+  <title>ForestKit — Inventariere Arborete</title>
   <link rel="stylesheet" href="style.css" />
-  <link rel="manifest" href="manifest.json" />
-  <link rel="icon" href="icon.png" />
-
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
-  <link rel="stylesheet" href="https://unpkg.com/leaflet-draw/dist/leaflet.draw.css" />
-  <script src="https://unpkg.com/leaflet-draw/dist/leaflet.draw.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/js-yaml@4.1.0/dist/js-yaml.min.js"></script>
-
-  <script>
-    if ("serviceWorker" in navigator) {
-      navigator.serviceWorker.register("service-worker.js")
-        .then(() => console.log("✅ Service Worker activat"))
-        .catch(err => console.error("❌ Eroare:", err));
-    }
-  </script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@latest/ol.css" />
+  <script src="https://cdn.jsdelivr.net/npm/ol@latest/ol.js"></script>
 </head>
 <body>
-  <h1>🌳 ForestKit</h1>
-
-  <button onclick="locateMeAndDrawPlot()">📍 Plot GPS</button>
+  <h1>🌳 ForestKit (OpenLayers)</h1>
+  <button onclick="addPlot()">📍 Plasează plot</button>
   <div id="map"></div>
-
-  <form id="tree-form">
-    <input type="text" id="specie" placeholder="Specie" required />
-    <input type="number" id="diametru" placeholder="Diametru (cm)" required />
-    <input type="number" id="inaltime" placeholder="Înălțime (m)" required />
-    <button type="submit">✅ Salvează arbore</button>
-  </form>
-
-  <input type="text" id="search-specie" placeholder="🔍 Caută specie..." />
-  <div id="tree-list"></div>
-  <div id="plot-stats"></div>
-
-  <button onclick="exportCSVOffline()">💾 Export arbori (CSV)</button>
-  <button onclick="exportGeoJSONFull()">🗺️ Export GeoJSON complet</button>
-
-  <h3>📥 Import contur (.geojson)</h3>
-  <input type="file" id="geojson-input" accept=".geojson" />
-
-  <h3>📁 Gestionare proiecte</h3>
-  <button onclick="saveProjectLocal()">💾 Salvează proiect</button>
-  <button onclick="listProjects()">📋 Afișează proiecte</button>
-  <div id="project-list"></div>
-
-  <h3>⚙️ Configurație ForestKit (.yaml)</h3>
-  <input type="file" id="yaml-config" accept=".yaml" />
-
   <script src="app.js"></script>
 </body>
 </html>
