@@ -25,7 +25,7 @@ self.addEventListener("activate", event => {
 });
 
 self.addEventListener("fetch", event => {
-  if (event.request.url.includes("tile.openstreetmap.org")) return; // nu cachează harta OSM
+  if (event.request.url.includes("tile.openstreetmap.org")) return;
   event.respondWith(
     caches.match(event.request).then(response =>
       response || fetch(event.request)
