@@ -1,87 +1,87 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Forest Plot Map</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@v7.5.0/ol.css">
-  <style>
-    html, body, #map {
-      margin: 0;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-    }
-  </style>
-</head>
-<body>
-  <div id="map"></div>
+const API_KEY = "INTRODU_CHEIA_TA_OPENWEATHERMAP"; // <--- pune cheia ta
 
-  <script type="module">
-    import Map from "https://cdn.jsdelivr.net/npm/ol@v7.5.0/Map.js";
-    import View from "https://cdn.jsdelivr.net/npm/ol@v7.5.0/View.js";
-    import TileLayer from "https://cdn.jsdelivr.net/npm/ol@v7.5.0/layer/Tile.js";
-    import VectorLayer from "https://cdn.jsdelivr.net/npm/ol@v7.5.0/layer/Vector.js";
-    import VectorSource from "https://cdn.jsdelivr.net/npm/ol@v7.5.0/source/Vector.js";
-    import OSM from "https://cdn.jsdelivr.net/npm/ol@v7.5.0/source/OSM.js";
-    import {Circle as CircleGeom} from "https://cdn.jsdelivr.net/npm/ol@v7.5.0/geom.js";
-    import Feature from "https://cdn.jsdelivr.net/npm/ol@v7.5.0/Feature.js";
-    import {Style, Fill, Stroke, Circle as CircleStyle} from "https://cdn.jsdelivr.net/npm/ol@v7.5.0/style.js";
-    import {fromLonLat, toLonLat} from "https://cdn.jsdelivr.net/npm/ol@v7.5.0/proj.js";
+// Inițializare hartă
+const map = new ol.Map({
+  target: "map",
+  layers: [
+    new ol.layer.Tile({ source: new ol.source.OSM() })
+  ],
+  view: new ol.View({
+    center: ol.proj.fromLonLat([24.9668, 45.9432]),
+    zoom: 6
+  })
+});
 
-    let map;
-    let plots = [];
-    let vectorSource;
-    let vectorLayer;
+const vectorSource = new ol.source.Vector();
+const vectorLayer = new ol.layer.Vector({ source: vectorSource });
+map.addLayer(vectorLayer);
 
-    // Inițializare hartă
-    window.addEventListener("load", () => {
-      vectorSource = new VectorSource();
+// Încarcă marker-ele din localStorage
+const savedPlots = JSON.parse(localStorage.getItem("plots") || "[]");
+savedPlots.forEach(plot => addMarker(plot.lon, plot.lat, plot.temp));
 
-      vectorLayer = new VectorLayer({
-        source: vectorSource,
-        style: new Style({
-          stroke: new Stroke({ color: "#2e7d32", width: 2 }),
-          fill: new Fill({ color: "rgba(46,125,50,0.3)" }),
-          image: new CircleStyle({
-            radius: 6,
-            fill: new Fill({ color: "#388e3c" }),
-            stroke: new Stroke({ color: "#1b5e20", width: 2 })
-          })
-        })
-      });
+function addPlot() {
+  if (!navigator.geolocation) {
+    alert("Geolocația nu este suportată de acest browser.");
+    return;
+  }
 
-      map = new Map({
-        target: "map",
-        layers: [
-          new TileLayer({ source: new OSM() }),
-          vectorLayer
-        ],
-        view: new View({
-          center: fromLonLat([25.60, 45.66]),
-          zoom: 15
-        })
-      });
+  navigator.geolocation.getCurrentPosition(async pos => {
+    const lon = pos.coords.longitude;
+    const lat = pos.coords.latitude;
 
-      // Click pe hartă → adaugă plot
-      map.on("click", function (evt) {
-        const coord = toLonLat(evt.coordinate);
-        addPlot(coord);
-      });
-    });
+    // Obține vremea
+    const temp = await getWeather(lat, lon);
 
-    // Adaugă un plot circular
-    function addPlot(lonLatCoord) {
-      const centerProjected = fromLonLat(lonLatCoord);
-      const radiusInMeters = 12.6;
+    addMarker(lon, lat, temp);
+    savePlot(lon, lat, temp);
 
-      const circle = new CircleGeom(centerProjected, radiusInMeters);
-      const feature = new Feature(circle);
-      vectorSource.addFeature(feature);
+    // Arată info
+    document.getElementById("info").style.display = "block";
+    document.getElementById("info").innerText = `Plot adăugat la [${lat.toFixed(4)}, ${lon.toFixed(4)}] — ${temp}°C`;
 
-      plots.push(lonLatCoord);
-      alert(`✅ Plot plasat la: ${lonLatCoord[1].toFixed(5)}°, ${lonLatCoord[0].toFixed(5)}°`);
-    }
-  </script>
-</body>
-</html>
+  }, err => {
+    alert("Nu s-a putut obține locația: " + err.message);
+  });
+}
+
+function addMarker(lon, lat, temp) {
+  const point = new ol.Feature({
+    geometry: new ol.geom.Point(ol.proj.fromLonLat([lon, lat]))
+  });
+
+  point.setStyle(new ol.style.Style({
+    image: new ol.style.Circle({
+      radius: 7,
+      fill: new ol.style.Fill({ color: '#388e3c' }),
+      stroke: new ol.style.Stroke({ color: '#1b5e20', width: 2 })
+    }),
+    text: new ol.style.Text({
+      text: `${temp}°C`,
+      offsetY: -15,
+      fill: new ol.style.Fill({ color: '#1b5e20' }),
+      stroke: new ol.style.Stroke({ color: '#fff', width: 2 })
+    })
+  }));
+
+  vectorSource.addFeature(point);
+  map.getView().animate({ center: ol.proj.fromLonLat([lon, lat]), zoom: 15 });
+}
+
+function savePlot(lon, lat, temp) {
+  const plots = JSON.parse(localStorage.getItem("plots") || "[]");
+  plots.push({ lon, lat, temp });
+  localStorage.setItem("plots", JSON.stringify(plots));
+}
+
+async function getWeather(lat, lon) {
+  try {
+    const url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&units=metric&lang=ro&appid=${API_KEY}`;
+    const res = await fetch(url);
+    const data = await res.json();
+    return Math.round(data.main.temp);
+  } catch (e) {
+    console.error("Eroare la vreme:", e);
+    return "?";
+  }
+}
