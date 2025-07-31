@@ -1,4 +1,4 @@
-const API_KEY = "INTRODU_CHEIA_TA_OPENWEATHERMAP"; // <--- pune cheia ta
+const API_KEY = "9cb09ff271e34d97a9aad23bd94066e8"; // <--- pune cheia ta
 
 // Inițializare hartă
 const map = new ol.Map({
