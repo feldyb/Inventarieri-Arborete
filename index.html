@@ -7,11 +7,23 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/ol@latest/ol.css" />
   <script src="https://cdn.jsdelivr.net/npm/ol@latest/ol.js"></script>
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#2e7d32">
 </head>
 <body>
   <h1>🌳 ForestKit (OpenLayers)</h1>
   <button onclick="addPlot()">📍 Plasează plot</button>
   <div id="map"></div>
+  <div id="info"></div>
+
   <script src="app.js"></script>
+  <script>
+    // Înregistrează service worker-ul
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service-worker.js')
+        .then(() => console.log("Service Worker înregistrat"))
+        .catch(err => console.error("Eroare SW:", err));
+    }
+  </script>
 </body>
 </html>
