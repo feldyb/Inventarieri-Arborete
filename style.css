@@ -26,3 +26,10 @@ button {
   font-weight: bold;
   cursor: pointer;
 }
+#info {
+  background: #e8f5e9;
+  padding: 8px;
+  border-radius: 6px;
+  margin-top: 10px;
+  display: none;
+}
