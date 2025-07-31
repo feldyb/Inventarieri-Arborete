@@ -16,6 +16,7 @@
 </head>
 <body>
   <div id="map"></div>
+
   <script type="module">
     import Map from "https://cdn.jsdelivr.net/npm/ol@v7.5.0/Map.js";
     import View from "https://cdn.jsdelivr.net/npm/ol@v7.5.0/View.js";
@@ -23,7 +24,7 @@
     import VectorLayer from "https://cdn.jsdelivr.net/npm/ol@v7.5.0/layer/Vector.js";
     import VectorSource from "https://cdn.jsdelivr.net/npm/ol@v7.5.0/source/Vector.js";
     import OSM from "https://cdn.jsdelivr.net/npm/ol@v7.5.0/source/OSM.js";
-    import {Circle as CircleGeom, Point} from "https://cdn.jsdelivr.net/npm/ol@v7.5.0/geom.js";
+    import {Circle as CircleGeom} from "https://cdn.jsdelivr.net/npm/ol@v7.5.0/geom.js";
     import Feature from "https://cdn.jsdelivr.net/npm/ol@v7.5.0/Feature.js";
     import {Style, Fill, Stroke, Circle as CircleStyle} from "https://cdn.jsdelivr.net/npm/ol@v7.5.0/style.js";
     import {fromLonLat, toLonLat} from "https://cdn.jsdelivr.net/npm/ol@v7.5.0/proj.js";
@@ -62,14 +63,14 @@
         })
       });
 
-      // Click pentru adăugare plot
+      // Click pe hartă → adaugă plot
       map.on("click", function (evt) {
         const coord = toLonLat(evt.coordinate);
         addPlot(coord);
       });
     });
 
-    // Adaugă un plot (cerc de 12.6m rază)
+    // Adaugă un plot circular
     function addPlot(lonLatCoord) {
       const centerProjected = fromLonLat(lonLatCoord);
       const radiusInMeters = 12.6;
@@ -79,7 +80,6 @@
       vectorSource.addFeature(feature);
 
       plots.push(lonLatCoord);
-
       alert(`✅ Plot plasat la: ${lonLatCoord[1].toFixed(5)}°, ${lonLatCoord[0].toFixed(5)}°`);
     }
   </script>
